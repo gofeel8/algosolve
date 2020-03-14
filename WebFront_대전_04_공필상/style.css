@@ -1,0 +1,112 @@
+@charset "UTF-8";
+
+
+* {
+	padding: 0;
+	margin: 0;
+	font-family :'Noto Sans KR',"ë§ì ê³ ë", "ëì", sans-serif; 
+	font-size: medium;
+}
+
+#outline {
+	border: 1px solid red;
+	padding: 20px;
+	margin: 20px;
+	width: 70em;
+}
+
+header {
+	background-color: #33cc00;
+	padding: 20px;
+}
+
+ul {
+	margin: 10px;
+}
+
+li {
+	display: inline;
+	padding-right: 20px;
+}
+
+a {
+	text-decoration: none;
+}
+
+section {
+	border: 1px solid black;
+	float: left;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 60%;
+	
+}
+
+aside {
+	border: 1px solid black;
+	float: right;
+	margin-top: 10px;
+	width: 30%;
+	background-color: #d9d9d9;
+}
+
+aside h2 {
+	margin: 10px;
+}
+
+aside article {
+	margin: 10px;
+}
+
+footer {
+	clear: both;
+}
+
+section h2 {
+	margin: 20px 0 10px 10px;
+}
+
+section article {
+	background-color: #e6e600;
+	margin: 30px;
+}
+
+
+table{
+	border-collapse: collapse;
+	margin: 30px;
+	width: 80%;
+}
+thead{
+	background-color:  #0047b3;
+	color:white;
+}
+
+th{
+	border-bottom: 1px solid black;
+	display: table-cell;
+}
+
+td{
+	text-align: center;
+	border-bottom: 1px solid black;
+	height: 50px;
+}
+
+.odd{
+	background-color: #ccf2ff;
+}
+.even{
+	background-color: #4dd2ff;
+}
+
+footer{
+	border:1px solid gray;
+}
+
+footer h2{
+	margin: 20px 0 20px 10px;
+}
+footer article{
+	margin: 20px 0 20px 10px;
+}
