@@ -1,0 +1,16 @@
+-- °úÁ¦
+-- 1¹ø
+select * from emp
+where year(hiredate)=1981;
+ -- 2¹ø
+ select * from emp
+ where ename like '%s%';
+ -- 3¹ø
+ select * from emp
+ where comm is null;
+ -- 4¹ø
+ select ename,deptno,sal,(12*sal+sal*1.5) as ¿¬ºÀ from emp
+ where deptno = 30;
+ -- 5¹ø
+ select ename,sal,(sal*0.15)as °æÁ¶ºñ from emp
+ where sal >= 2000;
