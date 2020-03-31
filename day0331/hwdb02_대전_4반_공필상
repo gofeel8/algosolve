@@ -1,0 +1,14 @@
+-- 1
+create table product(pdnum int,pdname varchar(20),pdprice int);
+-- 2
+insert into product (pdnum,pdname,pdprice) values(234,"TV",200);
+insert into product (pdnum,pdname,pdprice) values(163,"노트북",120);
+insert into product (pdnum,pdname,pdprice) values(211,"냉장고",220);
+insert into product (pdnum,pdname,pdprice) values(155,"에어컨",150);
+insert into product (pdnum,pdname,pdprice) values(272,"무선청소기",50);
+-- 3
+select pdname,pdprice,round(pdprice*0.85) as 할인가 from product;	
+-- 4
+update product set pdprice = pdprice*0.80 where pdname="TV";
+-- 5
+select sum(pdprice) as 총금액 from product; 
