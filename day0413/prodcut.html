@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+function fsave(){
+	var form = document.productForm;
+		form.submit();
+}
+
+function fcancle(){
+	var form = document.getElementById("myForm")
+	form.reset();
+}
+
+</script>
+</head>
+<body>
+<div style="border : 1px solid black;width: 450px;height: 300px" align="center">
+<h1> 상품을 등록 해 주세요.</h1>
+<form action="product.do" name="productForm" method="get" id="myForm">
+<div>
+	<span>
+		상품명 :
+	</span>
+	<input type="text" name="name">
+</div>
+<div>
+	<span>
+		상품가격 :
+	</span>
+	<input type="text" name="price">
+</div>
+<div>
+	<span>
+		상품설명 :
+	</span>
+	<input type="text" name="desc">
+</div>
+<div>
+	<input type="button" name="save" value = "저장" onclick="fsave()">
+	<input type="button" name="cancle" value = "취소" onclick="fcancle()">
+</div>
+</form>
+</div>
+</body>
+</html>
