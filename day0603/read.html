@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- https://momentjs.com/ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app" class="container">
+        <h1 class="text-center">사원 등록</h1>
+
+        <div class="form-group">
+            <label for="name">이름</label>
+            <input type="text" class="form-control" id="name" name="name" ref="name" placeholder="name" v-model="name">
+        </div>
+
+        <div class="form-group">
+            <label for="email">이메일</label>
+            <input type="text" class="form-control" id="email" name="email" ref="email" placeholder="email"
+                v-model="email">
+        </div>
+
+        <div class="form-group">
+            <label for="hiredate">고용일</label>
+            <input type="date" class=" form-control" id="hiredate" name="hiredate" ref="hiredate" placeholder="hiredate"
+                v-model="hiredate">
+        </div>
+
+        <div class="form-group">
+            <label for="manager">관리자</label>
+            <input type="text" class="form-control" id="manager" name="manager" ref="manager" placeholder="manager"
+                v-model="manager">
+        </div>
+
+        <div class="form-group">
+            <label for="title">직책</label>
+            <input type="text" class="form-control" id="title" name="title" ref="title" placeholder=" title"
+                v-model="title">
+        </div>
+        <div class="form-group">
+            <label for="dept">부서</label>
+            <input type="text" class="form-control" id="dept" name="dept" ref="dept" placeholder="dept" v-model="dept">
+        </div>
+
+        <div class="form-group">
+            <label for="salary">월급</label>
+            <input type="number" class="form-control" id="salary" name="salary" ref="salary" placeholder="salary"
+                v-model="salary">
+        </div>
+        <div class="form-group">
+            <label for="commit">커미션</label>
+            <input type="number" class="form-control" id="commit" name="commit" ref="commit" placeholder="commit"
+                v-model="commit">
+        </div>
+
+
+        <div>
+            <p class="text-center"><button class="btn btn-success" @click="add">사원 등록</button></p>
+            <p class="text-right"><a class="btn btn-outline-primary" href="list.html">목록으로</a></p>
+        </div>
+
+
+
+    </div>
+
+</body>
+<script>
+    const root = new Vue({
+        el: "#app",
+        data: {
+            name: "",
+            email: "",
+            hiredate: "",
+            manager: "",
+            title: "",
+            dept: "",
+            salary: "",
+            commit: "",
+            emps: []
+        },
+        methods: {
+            add() {
+                //alert("눌림");
+                const emps = JSON.parse(localStorage.getItem('emps'));
+                emps.push({
+                    name: this.name,
+                    email: this.email,
+                    hiredate: this.hiredate,
+                    manager: this.manager,
+                    title: this.title,
+                    dept: this.dept,
+                    salary: this.salary,
+                    commit: this.commit
+                })
+
+                localStorage.setItem('emps', JSON.stringify(emps));
+                alert("등록이 완료되었습니다.");
+                location.href = "list.html";
+            }
+        }
+    })
+</script>
+
+</html>
