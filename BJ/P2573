@@ -1,0 +1,136 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class P2573 {
+	
+	public static List<Node> list;
+	public static int[] dr= {-1,0,1,0};
+	public static int[] dc= {0,1,0,-1};
+	public static int N;
+	public static int M;
+	public static int[][] map;
+	public static int total;
+	public static boolean[][] visited;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		map = new int[N][M];
+		total = 0;
+		list = new ArrayList<>();
+		
+		for(int i=0;i<N;i++) {
+			st = new StringTokenizer(br.readLine());
+			for(int j=0;j<M;j++) {
+				int num = Integer.parseInt(st.nextToken());
+				map[i][j] = num;
+				if(num>0) {
+					list.add(new Node(i,j,num));
+					total++;
+				}
+			}
+		}
+		
+		
+		search(1);
+		
+
+	}
+	
+	private static void search(int time) {
+		
+		
+		
+		for(int i=0;i<list.size();i++) {
+			Node now = list.get(i);
+			
+			for(int d=0;d<4;d++) {
+				int nr = now.r+dr[d];
+				int nc = now.c+dc[d];
+				
+				if(nr<0 || nr>=N || nc<0 || nc>=M )continue;
+				if(map[nr][nc]==0) {
+					now.num--;
+				}
+			}
+		}
+		
+		for(int i=0;i<list.size();i++) {
+			Node now = list.get(i);
+			if(now.num<=0) {
+				map[now.r][now.c]=0;
+				list.remove(i);
+				i--;
+				total--;
+			}
+		}
+		
+		if(total==0) {
+			System.out.println(0);
+			return;
+		}
+
+		if(check()) {
+			System.out.println(time);
+		}else {
+
+			search(time+1);
+		}
+	}
+
+	private static boolean check() {
+		Node start =  list.get(0);
+		
+		visited = new boolean[N][M];
+		Queue<int []> queue = new LinkedList<>();
+		queue.add(new int[] {start.r,start.c});
+		int cnt =1;
+		visited[start.r][start.c]=true;
+		
+		while(!queue.isEmpty()) {
+			int[] now = queue.poll();
+			
+			for(int d=0;d<4;d++) {
+				int nr = now[0]+dr[d];
+				int nc = now[1]+dc[d];
+				if(nr<0 || nr>=N || nc<0 || nc>=M )continue;
+				if(visited[nr][nc]==true)continue;
+				if(map[nr][nc]!=0) {
+					queue.add(new int[] {nr,nc});
+					cnt++;
+					visited[nr][nc]=true;
+				}
+			}
+			
+		}
+
+		
+		if(cnt == list.size()) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+
+	public static class Node{
+		int r;
+		int c;
+		int num;
+		
+		public Node(int r,int c, int num) {
+			this.r=r;
+			this.c=c;
+			this.num=num;
+		}
+	}
+
+}
