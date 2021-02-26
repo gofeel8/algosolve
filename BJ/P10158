@@ -1,0 +1,82 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+
+public class Main {
+	
+	public static int w;
+	public static int h;
+	
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+
+		w = Integer.parseInt(st.nextToken());
+		h = Integer.parseInt(st.nextToken());
+		st = new StringTokenizer(br.readLine());
+		int p = Integer.parseInt(st.nextToken());
+		int q = Integer.parseInt(st.nextToken());
+		int t = Integer.parseInt(br.readLine());
+		
+		
+		//x 부터 구해보자
+		int right = w-p;
+		int left = p;
+//		System.out.println("left :"+left);
+//		System.out.println("right :"+right);
+		
+		int mod = left*2 + right*2;
+		
+		int tx = t%mod;
+		if(tx<=right) {
+			p+=tx;
+		}else if(tx>right&& tx<=right*2) {
+			tx-=right;
+			p = w-tx;
+			
+		}else if(tx>right*2 && tx<=right*2+left) {
+			tx-=2*right;
+//			System.out.println(tx);
+//			System.out.println(p);
+			
+			p = p-tx;
+		}else {
+			tx-=2*right +left;
+			p = tx;
+		}
+		
+		
+		
+		
+		//y 구해보자
+		int top = h-q;
+		int bottom = q-0;
+		
+		mod = top*2 + bottom*2;
+		
+		int ty = t%mod;
+		
+		if(ty<=top) {
+			q+=ty;
+		}else if(ty>top && ty<=top*2) {
+			ty-=top;
+			q = h-ty;
+		}else if(ty>top*2 && ty<=top*2+bottom) {
+			ty-=2*top;
+			q = q-ty;
+		}else {
+			ty-=2*top +bottom;
+			q = ty;
+		}
+		
+		System.out.println(p+" "+q);
+		
+		
+		
+	}
+
+
+}
