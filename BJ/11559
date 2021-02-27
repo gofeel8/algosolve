@@ -1,0 +1,129 @@
+import java.util.*;
+import java.io.*;
+
+public class P11559 {
+	public static char[][] map;
+	public static boolean[][] visited;
+	public static int[] dr= {-1,0,1,0};
+	public static int[] dc= {0,1,0,-1};
+	
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String str;
+		map = new char[12][6];
+		for(int i=0;i<12;i++) {
+			str = br.readLine();
+			for(int j=0;j<6;j++) {
+				map[i][j] = str.charAt(j);
+			}
+		}
+		
+		int result=0;
+		while(play()) {
+//			System.out.println("반복");
+			result++;
+		}
+		
+		System.out.println(result);
+		
+
+	}
+
+	private static boolean play() {
+		
+		boolean flag = false;
+		int high =0;
+		visited = new boolean[12][6];
+		//밑에 라인부터 bfs 시작 
+		
+		for(int i=11;i>=0;i--) {
+//			int dot=0;
+			for(int j=0;j<6;j++) {
+				if(visited[i][j]==true)continue;
+				if(map[i][j] != '.') {
+					char color = map[i][j];
+					int cnt =1;
+					List<int []> list = new ArrayList<int[]>();
+					Queue<int []> queue = new LinkedList<int[]>();
+					queue.add(new int[] {i,j});
+					list.add(new int[] {i,j});
+					visited[i][j] = true;
+					
+					while(!queue.isEmpty()) {
+						int[] now = queue.poll();
+						
+						for(int d=0;d<4;d++) {
+							int nr =now[0]+dr[d];
+							int nc =now[1]+dc[d];
+							if(nr<0 || nr>=12 || nc<0 || nc>=6) continue;
+							if(visited[nr][nc]==true)continue;
+							
+							char target = map[nr][nc];
+							if(color ==target) {
+								cnt++;
+								list.add(new int[] {nr,nc});
+								queue.add(new int[] {nr,nc});
+								visited[nr][nc]=true;
+							}
+							
+						}
+					}
+//					System.out.println("cnt = "+cnt);
+					if(cnt>=4) {
+						flag =true;
+						for(int q=0;q<cnt;q++) {
+							int[] clear = list.get(q);
+							map[clear[0]][clear[1]] = '.';
+						}
+					}
+					
+				}
+//				else {
+//					dot++;
+//				}
+			}
+//			if(dot==6) {
+//				high =i;
+//				System.out.println("high ="+high);
+//				break;
+//			}
+//			
+		}
+		
+		
+		
+		if(flag==true) {
+//			for(int i=0;i<12;i++) {
+//				System.out.println(Arrays.toString(map[i]));
+//		}
+//		System.out.println("======================================");
+			for(int i=0;i<6;i++) {
+				for(int j=11;j>=0;j--) {
+					if(map[j][i]=='.') {
+						
+						for(int q=j-1;q>=0;q--) {
+							if(map[q][i]!='.') {
+								map[j][i]=map[q][i];
+								map[q][i]='.';
+								break;
+							}
+						}
+					}
+				}
+			}
+			
+			
+			
+//			for(int i=0;i<12;i++) {
+//					System.out.println(Arrays.toString(map[i]));
+//			}
+//			System.out.println("======================================");
+		}
+		
+		
+		
+		return flag;
+	}
+
+}
