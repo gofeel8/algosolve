@@ -1,0 +1,158 @@
+import java.io.*;
+import java.util.*;
+
+public class P2933 {
+
+	public static int[] dr= {-1,0,0,1};
+	public static int[] dc= {0,1,-1,0};
+	public static char[][] map;
+	public static int R;
+	public static int C;
+	public static boolean[][] visited;
+	public static boolean[][] cluster;
+	
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		R= Integer.parseInt(st.nextToken());
+		C= Integer.parseInt(st.nextToken());
+		
+		
+		map = new char[R][C];
+		String str ;
+		for(int i=0;i<R;i++) {
+			str =br.readLine();
+			for(int j=0;j<C;j++) {
+				map[i][j]=str.charAt(j);
+			}
+		}
+		
+		int test= Integer.parseInt(br.readLine());
+		st = new StringTokenizer(br.readLine());
+		boolean A = true;
+		
+		for(int t=0;t<test;t++) {
+			int floor = Math.abs(Integer.parseInt(st.nextToken())-R);
+//			System.out.println(floor);
+//			System.out.println("t="+t);
+
+//			showMap() ;
+			
+			for(int i=0;i<C;i++) {
+				int now = A ? i : C-i-1;
+				// 만나 면 쏘기 
+				if(map[floor][now]=='x') {
+					visited = new boolean[R][C];
+					visited[floor][now]=true;
+					map[floor][now]='.';
+					//위 , 오른쪽 ,왼쪽 중에서 공중에 떠있는 클러스터 찾기
+					for(int d=0;d<4;d++) {
+						cluster = new boolean[R][C];
+						int flag=-1;
+						int nr = floor+dr[d];
+						int nc = now+dc[d];
+						if(nr<0 || nr>=R || nc<0 || nc>=C)continue;
+						if(visited[nr][nc]==false&&map[nr][nc]=='x') {
+							Queue<int[]>queue = new LinkedList<int[]>();
+							queue.add(new int[] {nr,nc});
+							visited[nr][nc]=true;
+							cluster[nr][nc]=true;
+
+//							System.out.println(nr+" : "+nc);
+							while(!queue.isEmpty()){
+//							System.out.println("반복");
+								int[] now2=queue.poll();
+								for(int d2=0;d2<4;d2++) {
+									int nr2 =now2[0]+dr[d2];
+									int nc2 =now2[1]+dc[d2];
+									if(nr2<0 || nr2>=R || nc2<0 || nc2>=C)continue;
+									if(visited[nr2][nc2] ==false&& map[nr2][nc2]=='x') {
+										queue.add(new int[] {nr2,nc2});
+										visited[nr2][nc2] =true;
+										cluster[nr2][nc2]=true;
+										if(nr2==R-1) {
+											flag=d;
+										}
+									}
+								}
+							}
+//							System.out.println("flag="+flag);
+							if(flag==-1) { //바닥에 안닿는경우
+								//닿을때까지 내리고
+//								showCluster();
+								while(down()) {
+//									System.out.println("down");
+								}
+								flag=10;
+								//빠져나오기
+							}
+						}
+						if(flag==10)break;
+						
+					}
+					
+					break;
+				}
+			}
+			
+		
+			
+			
+			
+			
+			A = !A;
+		}
+		
+	
+		
+		showMap();
+		
+
+	}
+	private static void showCluster() {
+		for(int i=0;i<R;i++) {
+			System.out.println(Arrays.toString(cluster[i]));
+		}
+	}
+	private static void showMap() {
+		for(int i=0;i<R;i++) {
+			for(int j=0;j<C;j++) {
+				System.out.print(map[i][j]);
+			}
+			System.out.println();
+//			System.out.println(Arrays.toString(map[i]));
+		}
+	}
+
+	private static boolean down() {
+		boolean flag = true;
+		for(int i=R-1;i>0;i--) {
+			for(int j=0;j<C;j++) {
+				if(cluster[i-1][j]==true) {
+					map[i][j]='x';
+					map[i-1][j]='.';
+					cluster[i][j]=true;
+					cluster[i-1][j]=false;
+
+					if(i==R-1) {
+						flag = false;
+					}
+					else if(cluster[i+1][j]==false&&map[i+1][j]=='x') {
+						flag = false;
+					}
+					
+				}
+			}
+		}
+		
+//		showMap();
+		
+		return flag;
+	
+	}
+	
+
+}
