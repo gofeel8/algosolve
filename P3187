@@ -1,0 +1,82 @@
+import java.util.*;
+import java.io.*;
+
+public class P3187 {
+	public static  int R;
+	public static int C;
+	public static char[][] map;
+	public static boolean[][] visited;
+	public static int[] dr = {-1,0,1,0};
+	public static int[] dc = {0,1,0,-1};
+	public static int V;
+	public static int K;
+	
+	
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader( System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		R = Integer.parseInt(st.nextToken());
+		C = Integer.parseInt(st.nextToken());
+		String str;
+		map = new char[R][C];
+		visited = new boolean[R][C];
+		for(int i=0;i<R;i++) {
+			str = br.readLine();
+			for(int j=0;j<C;j++) {
+				map[i][j]=str.charAt(j);
+			}
+		}
+		
+		for(int i=0;i<R;i++) {
+			for(int j=0;j<C;j++) {
+				if(visited[i][j] == false && map[i][j] !='#') {
+					search(i,j);
+				}
+			}
+		}
+		
+		System.out.println(K +" "+ V);
+		
+		
+		
+	}
+
+	private static void search(int row, int col) {
+		int v =0;
+		int k =0;
+		
+		Queue<int[]>queue = new LinkedList<int[]>();
+		queue.add(new int[] {row,col});
+		visited[row][col] =true;
+		
+		while(!queue.isEmpty()) {
+			int [] now = queue.poll();
+			int r = now[0];
+			int c = now[1];
+			
+			if(map[r][c]=='k')k++;
+			else if(map[r][c]=='v')v++;
+			
+			for(int d=0;d<4;d++) {
+				int nr = r+dr[d];
+				int nc = c+dc[d];
+			
+				if(nr<0 || nr>=R || nc<0 || nc>=C) continue;
+				if(visited[nr][nc]==true)continue;
+				if(map[nr][nc]!='#') {
+					queue.add(new int[] {nr,nc});
+					visited[nr][nc]=true;
+				}
+			}
+		}
+		
+		if(k>v) {
+			K += k;
+		}else {
+			V +=v;
+		}
+		
+	}
+
+}
