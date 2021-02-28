@@ -1,0 +1,95 @@
+import java.util.*;
+import java.io.*;
+
+
+public class P6087 {
+	public static char[][] map;
+	public static int[] dr= {-1,0,1,0};
+	public static int[] dc= {0,1,0,-1};
+	public static int[][] number;
+	public static boolean[][] visited;
+	public static int R;
+	public static int C;
+	
+	public static void  main(String [] args ) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		StringTokenizer st = new StringTokenizer(br. readLine());
+		C = Integer.parseInt(st.nextToken());
+		R = Integer.parseInt(st.nextToken());
+		map = new char[R][C];
+		number = new int[R][C];
+		visited = new boolean[R][C];
+		
+		String str;
+		List<int[]> czone = new ArrayList<int[]>();
+		for(int i=0;i<R;i++) {
+			str = br.readLine();
+			for(int j=0;j<C;j++) {
+				char tmp = str.charAt(j);
+				map[i][j]=tmp;
+				if(tmp=='C') {
+					czone.add(new int[] {i,j});
+				}
+			}
+		}
+		
+//		System.out.println(Arrays.toString(czone.get(0)));
+//		System.out.println(Arrays.toString(czone.get(1)));
+		
+		number[czone.get(0)[0]][czone.get(0)[1]]=0;
+//		System.out.println(Character.isDigit(map[1][6]));
+		
+		simul(czone.get(0)[0],czone.get(0)[1]);
+		
+//		for(int i=0;i<R;i++) {
+//			System.out.println(Arrays.toString(number[i]));
+//		}
+		
+		System.out.println(number[czone.get(1)[0]][czone.get(1)[1]]-1);
+
+	}
+
+
+	private static void simul(int row, int col) {
+		
+		//'.' 이라면 현재 위치 사방 직진으로다가  현재 위치+1 색칠 하고 큐에 집어 넣는다  *을 만나면 정지 
+		
+		Queue<int[]> queue = new LinkedList<int[]>();
+		
+		queue.add(new int[] {row,col});
+		visited[row][col]=true;
+		
+		while(!queue.isEmpty()){
+			int[] now = queue.poll();
+			int r = now[0];
+			int c = now[1];
+			int num = number[r][c];
+			for(int d=0;d<4;d++) {
+				int idx =1;
+				while(r+dr[d]*idx>=0 && r+dr[d]*idx < R &&c+dc[d]*idx>=0 &&c+dc[d]*idx<C ) {
+					int nr = r+dr[d]*idx;
+					int nc = c+dc[d]*idx;
+					if(visited[nr][nc]==true) {
+						idx++;
+						continue;
+					}
+					if(map[nr][nc]=='*') {
+						break;
+					}
+					
+					number[nr][nc]=num+1;
+					queue.add(new int[] {nr,nc});
+					visited[nr][nc]=true;
+					
+					idx++;
+				}
+				
+				
+			}
+		}
+		
+		
+	}
+
+}
