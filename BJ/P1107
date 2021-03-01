@@ -1,0 +1,67 @@
+import java.io.*;
+import java.util.*;
+
+public class P1107 {
+	public static int MIN;
+
+	public static void main(String[] args) throws  IOException {
+		BufferedReader br  = new BufferedReader(new InputStreamReader(System.in));
+		
+		int N = Integer.parseInt(br.readLine());
+		int M = Integer.parseInt(br.readLine());
+		
+		
+		Set<Character> prohibit = new HashSet<>();
+
+		if(M>0) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			for(int i=0;i<M;i++) {
+				char  p = st.nextToken().charAt(0);
+				prohibit.add(p);
+			}
+		}
+		
+		int test =Math.abs(N-100);
+		MIN=test;
+		for(int i=0;i<=test;i++) {
+			int a=N+i;
+			//a 를 만들 수 있는지 확인
+			if(make(a,prohibit)) {
+				//만들수있다면 MIN값 비교해보고 갱신하고 탈출 
+				int size = Integer.toString(a).length();
+				int tmp = size+i;
+				if(MIN>tmp) {
+					MIN=tmp;
+				}
+				
+			}
+			int b = N-i;
+			//b를 만들 수 있는지 확인
+			if(b>=0 && make(b,prohibit)) {
+				//만들수있다면 MIN값 비교해보고 갱신하고 탈출 
+				int size = Integer.toString(b).length();
+				int tmp = size+i;
+				if(MIN>tmp) {
+					MIN=tmp;
+				}
+			}
+		}
+		
+		System.out.println(MIN);
+		
+
+	}
+
+
+	private static boolean make(int a, Set<Character> prohibit) {
+		String num = Integer.toString(a);
+		
+		for(int i=0;i<num.length();i++) {
+			if(prohibit.contains(num.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+}
