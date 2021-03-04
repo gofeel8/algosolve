@@ -1,0 +1,90 @@
+import java.util.*;
+import java.io.*;
+public class P2206 {
+	public static int[][] map;
+	public static boolean[][] real, sub;
+	public static int[] dr = {-1,0,1,0};
+	public static int[] dc = {0,1,0,-1};
+	
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
+		
+		map = new int[N][M];
+		real = new boolean[N][M];
+		sub = new boolean[N][M];
+		
+		String str;
+		for(int i=0;i<N;i++) {
+			str = br.readLine();
+			for(int j=0;j<M;j++) {
+				map[i][j]=str.charAt(j)-'0';
+			}
+		}
+		
+		Queue<int[]> queue = new LinkedList<int[]>();
+		queue.add(new int[] {0,0,1});
+		
+		real[0][0]=true;
+		
+		if(N==1 && M==1) {
+			System.out.println(1);
+			return;
+		}
+		
+		
+		int cnt=1;
+		while(!queue.isEmpty()) {
+			int size = queue.size();
+			cnt++;
+			for(int i=0;i<size;i++) {
+				int[] tmp = queue.poll();
+				int r = tmp[0];
+				int c = tmp[1];
+				int chance = tmp[2];
+				
+				for(int d=0;d<4;d++) {
+					int nr = r+dr[d];
+					int nc = c+dc[d];
+					if(nr<0 || nr>=N || nc<0 ||nc>=M)continue;
+					
+					if(chance ==1) {  //아직 기회 한번 남은사람
+						if(real[nr][nc]==true)continue;  //방문했었다면 건너 뛰기
+						if(map[nr][nc]==0) {  //갈수있음
+							queue.add(new int[] {nr,nc,1});
+							if(nr==N-1 && nc==M-1) {
+								System.out.println(cnt);
+								return;
+							}
+							real[nr][nc]=true;
+						}else {  //벽
+							queue.add(new int[] {nr,nc,0}); // 기회써서 벽 뚫기
+							real[nr][nc]=true;
+							sub[nr][nc]=true;
+						}
+						
+					}else {              //기회가 없는 사람
+						if(real[nr][nc]==true)continue;  //방문했었다면 건너 뛰기
+						if(sub[nr][nc]==true)continue;
+						if(map[nr][nc]==0) {
+							queue.add(new int[] {nr,nc,0});
+							if(nr==N-1 && nc==M-1) {
+								System.out.println(cnt);
+								return;
+							}
+							sub[nr][nc]=true;
+						}
+					}
+				}
+			}
+		}
+		
+		System.out.println(-1);
+		
+		
+	}
+
+}
