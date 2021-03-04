@@ -1,0 +1,98 @@
+import java.util.*;
+import java.io.*;
+
+public class P5427 {
+	public static int[][] map;
+	public static int R,C;
+	public static int[] dr = {-1,0,1,0};
+	public static int[] dc = {0,1,0,-1};
+	
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int T = Integer.parseInt(br.readLine());
+		StringTokenizer st;
+		for(int t=0;t<T;t++) {
+			st = new StringTokenizer(br.readLine());
+			C = Integer.parseInt(st.nextToken());
+			R = Integer.parseInt(st.nextToken());
+			map = new int[R][C];
+			Queue<int []> fire = new LinkedList<int[]>();
+			Queue<int []> sang = new LinkedList<int[]>();
+			
+			String str;
+			for(int i=0;i<R;i++) {
+				str = br.readLine();
+				for(int j=0;j<C;j++) {
+					char tmp = str.charAt(j); 
+					map[i][j] =tmp;
+					if(tmp =='@') {
+						sang.add(new int[] {i,j});
+					}else if(tmp == '*') {
+						fire.add(new int[] {i,j});
+					}
+					
+				}
+			}
+			
+			int cnt=1;
+			boolean find = false;
+			while(!sang.isEmpty()) {
+				
+				//불길 먼저 움직이고
+				int firesize = fire.size();
+				for(int i=0;i<firesize;i++) {
+					int[] now = fire.poll();
+					for(int d=0;d<4;d++) {
+						int nr = now[0]+dr[d];
+						int nc = now[1]+dc[d];
+						
+						if(nr<0 || nr>=R || nc<0 || nc>=C)continue;
+						if(map[nr][nc]!='*'  && map[nr][nc]!='#' ) {
+							map[nr][nc]='*';
+							fire.add(new int[] {nr,nc});
+						}
+						
+					}
+					
+				}
+				
+				//상근이 움직이자
+				
+				int sangsize = sang.size();
+				for(int i=0;i<sangsize;i++) {
+					int[] now = sang.poll();
+					if(now[0]==0 || now[0]==R-1 || now[1]==0 || now[1]==C-1) {
+						find = true;
+						System.out.println(cnt);
+						break;
+					}
+					for(int d=0;d<4;d++) {
+						int nr = now[0]+dr[d];
+						int nc = now[1]+dc[d];
+						
+						if(nr<0 || nr>=R || nc<0 || nc>=C)continue;
+						if(map[nr][nc]!='*' && map[nr][nc]!='#'  &&map[nr][nc]!='@'  ) {
+							map[nr][nc]='@';
+							sang.add(new int[] {nr,nc});
+						}
+						
+					}
+				}
+				
+				if(find)break;
+				
+				cnt++;
+			}
+			
+			if(find ==false) {
+				System.out.println("IMPOSSIBLE");
+			}
+			
+			
+			
+		}
+
+	}
+
+}
